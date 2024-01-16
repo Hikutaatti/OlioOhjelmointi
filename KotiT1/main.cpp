@@ -4,38 +4,47 @@
 
 using namespace std;
 
-int arvaaLuku(int oikeaLuku) {
+int game(int maxnum) {
+    // Set RNG seed
+    srand(time(0));
+
+    //Gen a random number between 1-maxnum
+    int nmbr = rand() % maxnum + 1;
+
     int arvaus;
+    int arvaustenMaara = 0;
+
     do {
         // Kysy pelaajalta arvaus
-        cout << "Arvaa luku (0-20): ";
+        cout << "Guess the burgers (1-" << maxnum << "): ";
         cin >> arvaus;
 
         // Tarkista onko arvaus oikein ja anna palautetta
-        if (arvaus < oikeaLuku) {
-            cout << "Luku on suurempi." <<endl;
-        } else if (arvaus > oikeaLuku) {
-            cout << "Luku on pienempi." <<endl;
+        if (arvaus < nmbr) {
+            cout << "More burgers!" <<endl;
+        } else if (arvaus > nmbr) {
+            cout << "Less burgers." <<endl;
         } else {
-            cout << "Oikein! Onneksi olkoon!" <<endl;
+            cout << "Congratulations! You got the burgers!" <<endl;
         }
 
-    } while (arvaus != oikeaLuku);
+        arvaustenMaara++;
 
-    return arvaus;
+    } while (arvaus != nmbr);
+
+    return arvaustenMaara;
 }
 
 int main() {
-    // Aseta satunnaislukugeneraattorin siemen
-    srand(time(0));
+    // Kysy pelaajalta korkein arvattava luku
+    int maxnum;
+    cout << "Enter the max burgers to cook: ";
+    cin >> maxnum;
 
-    // Arvo satunnainen luku väliltä 0-20
-    int oikeaLuku = rand() % 21;
+    // Kutsu game-funktiota ja tulosta arvausten määrä
+    int arvaustenMaara = game(maxnum);
 
-    cout << "Tervetuloa arvauspeliin! Arvaa luku väliltä 0-20." <<endl;
-
-    // Kutsu arvausfunktiota ja anna oikea luku parametrina
-    arvaaLuku(oikeaLuku);
+    cout << "You cooked this many times: " << arvaustenMaara <<endl;
 
     return 0;
 }
